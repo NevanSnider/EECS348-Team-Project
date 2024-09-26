@@ -1,7 +1,8 @@
 # EECS348-Team-Project
 
-##**Quick Links:**
-[Project Meeting Logs](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/Project%20Meeting%20Logs.pdf)
+## **Quick Links:**
+
+  [Project Meeting Logs](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/Project%20Meeting%20Logs.pdf)
 
 ## **Team Members**
 

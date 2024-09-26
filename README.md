@@ -16,7 +16,7 @@
   ### **Ayoub Lamrani**
     Developer/Implementer | 913-313-1916 | ayoublamrani@ku.edu
     Available: Mon & Wed – 9 am - 10:30am & 5 pm – 7 pm
-    Programming Experience: Python & Exposure to C
+    Programming Experience: Python 
   
   ### **Jana Frady**
     Developer/Tester | 316-665-0936 | janafrady@ku.edu

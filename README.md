@@ -3,6 +3,7 @@
 ## **Quick Links**
 
   [Project Meeting Logs](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/Project%20Meeting%20Logs.pdf)
+  [Project Plan](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/01-Project-Plan.pdf)
 
 ## **Team Members**
 

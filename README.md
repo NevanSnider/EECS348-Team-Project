@@ -24,3 +24,8 @@
     Developer/Designer | 913-558-7003 | gaven.behrends@ku.edu
     Available: Monday any time, Wednesday 12pm - 2pm and 4pm - 6pm
     Programming Experience: C, C++, Python, Java, Javascript, PHP
+
+  ### **Lena Palmieri**
+    Developer/Recorder | 913-406-8494 | lpalmieri@ku.edu
+    Available: Mon & Wed – 9am - 10:30am | Mon, Wed, & Fri – 3pm - 7pm 
+    Programming Experience: Python, Java, HTML, CSS, C, C++, Arduino

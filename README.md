@@ -32,3 +32,6 @@
     Developer/Recorder | 913-406-8494 | lpalmieri@ku.edu
     Available: Mon & Wed – 9am - 10:30am | Mon, Wed, & Fri – 3pm - 7pm 
     Programming Experience: Python, Java, HTML, CSS, C, C++, Arduino
+
+  ### **Felix Balandran**
+    Developer/Integrator | 316-706-3938 | felix.baland@ku.edu

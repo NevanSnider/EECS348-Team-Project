@@ -7,6 +7,9 @@
  
   [01 Project Plan](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/01-Project-Plan.pdf)
 
+
+  [02 Software Requirements Specification](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/02-Software-Requirements-Spec.pdf)
+
 ## **Team Members**
 
   ### **Nevan Snider**

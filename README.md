@@ -10,6 +10,9 @@
 
   [02 Software Requirements Specification](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/02-Software-Requirements-Spec.pdf)
 
+
+  [03 Software Architecture Design](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/03-Software-Architecture-Design.pdf)
+
 ## **Team Members**
 
   ### **Nevan Snider**

@@ -2,16 +2,16 @@
 
 ## **Quick Links**
 
-  [Project Meeting Logs](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/Project%20Meeting%20Logs.pdf)
+  [Project Meeting Logs](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/Project%20Meeting%20Logs.pdf)
 
  
-  [01 Project Plan](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/01-Project-Plan.pdf)
+  [01 Project Plan](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/01-Project-Plan.pdf)
 
 
-  [02 Software Requirements Specification](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/02-Software-Requirements-Spec.pdf)
+  [02 Software Requirements Specification](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/02-Software-Requirements-Spec.pdf)
 
 
-  [03 Software Architecture Design](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/03-Software-Architecture-Design.pdf)
+  [03 Software Architecture Design](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/03-Software-Architecture-Design.pdf)
 
 ## **Team Members**
 

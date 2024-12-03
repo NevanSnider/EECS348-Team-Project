@@ -6,21 +6,25 @@
 #include <string>
 /*#include "token.hpp"*/
 
-// temporary mockup of what behavior the parser
-// needs from the Token class to construct a tree
-enum TokenRole {
-    OPEN_GROUP,
-    CLOSE_GROUP,
-    CONSTANT,
-    EXPONENT,
-    MULTIPLY,
-    ADD
-};
-
+// Temporary mockup of what behavior the parser
+// needs from the Lexer to construct a tree.
+// It doesn't have to look like this but this is the
+// basic information needed for parsing.
 class Token {
 public:
-    TokenRole getRole();
+    enum class Type {
+        OPERATOR,
+        OPERAND,
+        LEFT_PARENTHESIS,
+        RIGHT_PARENTHESIS
+    };
+
+    Type getType();
     std::string display();
+
+    // These are only needed for operators
+    int getPrecedence(); 
+    bool isLeftAssociative();
 };
 // ---------------------
 
@@ -30,10 +34,11 @@ public:
  */
 struct ExpressionNode {
     Token token;
+    std::shared_ptr<ExpressionNode> parent;
     std::shared_ptr<ExpressionNode> left;  
     std::shared_ptr<ExpressionNode> right; 
 
-    ExpressionNode(Token token) : token(token), left(nullptr), right(nullptr) {}
+    ExpressionNode(Token token) : token(token), parent(nullptr), left(nullptr), right(nullptr) {}
 };
 
 

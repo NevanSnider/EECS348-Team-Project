@@ -4,59 +4,69 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
+/*#include "token.hpp"*/
 
-enum class NodeType {
-    OPERATOR,  
-    OPERAND    
+// temporary mockup of what behavior the parser
+// needs from the Token class to construct a tree
+enum TokenRole {
+    OPEN_GROUP,
+    CLOSE_GROUP,
+    CONSTANT,
+    EXPONENT,
+    MULTIPLY,
+    ADD
 };
 
-// Structure for an Expression Tree Node
+class Token {
+public:
+    TokenRole getRole();
+    std::string display();
+};
+// ---------------------
+
+/**
+ * Node of the expression tree 
+ * contains a token and has its operands as children, if applicable
+ */
 struct ExpressionNode {
-    NodeType type;                 
-    std::string value;             
+    Token token;
     std::shared_ptr<ExpressionNode> left;  
     std::shared_ptr<ExpressionNode> right; 
 
-    // Constructor
-    ExpressionNode(NodeType type, const std::string& value)
-        : type(type), value(value), left(nullptr), right(nullptr) {}
+    ExpressionNode(Token token) : token(token), left(nullptr), right(nullptr) {}
 };
 
-// Expression Tree Class
+
 class ExpressionTree {
 private:
     std::shared_ptr<ExpressionNode> root; 
 
-    // Recursive function to print the tree in infix notation
-    void printInOrder(const std::shared_ptr<ExpressionNode>& node, std::ostream& out) const {
-        if (!node) return;
-
-        if (node->type == NodeType::OPERATOR) out << "(";
-        printInOrder(node->left, out);           
-        out << node->value;                     
-        printInOrder(node->right, out);         
-        if (node->type == NodeType::OPERATOR) out << ")";
-    }
+    /**
+     * Recursive function to print the tree in infix notation
+     */
+    void printInOrder(const std::shared_ptr<ExpressionNode>& node, std::ostream& out) const; 
 
 public:
-    // Constructor
+    /**
+     * Create an empty ExpressionTree
+     */ 
     ExpressionTree() : root(nullptr) {}
 
-    // Set the root of the tree
-    void setRoot(const std::shared_ptr<ExpressionNode>& rootNode) {
-        root = rootNode;
-    }
+    /**
+     * Print the ExpressionTreeree in infix notation
+     */
+    void printExpression(std::ostream& out) const; 
 
-    // Print the expression tree in infix notation
-    void printExpression(std::ostream& out = std::cout) const {
-        printInOrder(root, out);
-        out << std::endl;
-    }
+    /**
+     * Set the root node of the tree
+     */ 
+    void setRoot(const std::shared_ptr<ExpressionNode>& rootNode);
 
-    // Get the root node for evaluation purposes
-    std::shared_ptr<ExpressionNode> getRoot() const {
-        return root;
-    }
+    /**
+     * Get the root node of the tree
+     */
+    std::shared_ptr<ExpressionNode> getRoot() const;
 };
 
 #endif 

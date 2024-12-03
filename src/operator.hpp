@@ -2,7 +2,6 @@
 #define OPERATOR_HPP
 
 #include <iostream>
-#include <string>
 using namespace std;
 
 class Operator

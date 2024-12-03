@@ -2,7 +2,7 @@
 #define VALUE_HPP
 
 #include <iostream>
-#include <string>
+#include <vector>
 using namespace std;
 
 class Value
@@ -11,25 +11,25 @@ private:
     int priority;
 
 public:
-    Value(char token[]);
-    void setValue(char token[]);
+    Value(vector<char> token);
+    void setValue(vector<char> token);
     int getPriority();
     template <typename T>
     T getValue();
 
 //Constructor
-Value::Value(char token[]) {
+Value::Value(vector<char> token) {
     setValue(token);
     priority = -1;
 }
 
 //Setter method for value
-void Value::setValue(char token[]) {
+void Value::setValue(vector<char> token) {
     if (find(token, '.') > 0) {
-        double value = stod(token);
+        //double value = convert token to double
     }
     else {
-        int value = stoi(token);
+        //int value = convert token to int
     }
 }    
 
@@ -48,8 +48,8 @@ T getValue() {
 
 //Function that returns whether or not the input is an operator
         //Used in setValue()
-    int find(string line, char elem) {
-    for (int i=0; i < line.length(); i++) {
+    int find(vector<char> line, char elem) {
+    for (int i=0; i < line.size(); i++) {
         if (line[i] == elem) return i;
     }
     return -1;

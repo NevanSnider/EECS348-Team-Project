@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <vector>
 /*#include "token.hpp"*/
 
 // temporary mockup of what behavior the parser

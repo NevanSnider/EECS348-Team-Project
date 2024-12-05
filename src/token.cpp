@@ -7,7 +7,15 @@ using namespace std;
     char type;
     //Token constructor
     Token::Token(vector<char> input, char t) {
-        type = t;
+        if (input.front() == '(') {
+            type = 'l';
+        }
+        else if (input.front() == ')') {
+            type = 'r';
+        }
+        else {
+            type = t;
+        }
     }
     
     char Token::getType() {

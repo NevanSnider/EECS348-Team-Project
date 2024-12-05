@@ -16,7 +16,6 @@ using namespace std;
     return -1;
 }
 
-
     //Constructor
     Value::Value(vector<char> token) : Token(token, 'v') {
         setValue(token);

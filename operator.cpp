@@ -18,13 +18,19 @@ using namespace std;
     void Operator::setPriority(char op) {
         switch (op) {
         case '^':
-            priority = 1;
-            break;
-        case '*' || '/' || '%':
             priority = 2;
             break;
-        default:
+        case '*' || '/' || '%':
             priority = 3;
+            break;
+        case '(':
+            priority = 1;
+            break;
+        case ')':
+            priority = 1;
+            break;
+        default:
+            priority = 4;
             break;
     }
     }

@@ -12,11 +12,11 @@ ExpressionTree* parse(std::vector<Token>) {
 void ExpressionTree::printInOrder(const std::shared_ptr<ExpressionNode>& node, std::ostream& out) const {
     if (!node) return;
 
-    if (node->token.getRole() > CONSTANT) out << "(";
+    if (node->token.getType() == Token::Type::OPERATOR) out << "(";
     printInOrder(node->left, out);           
     out << node->token.display();                     
     printInOrder(node->right, out);         
-    if (node->token.getRole() > CONSTANT) out << ")";
+    if (node->token.getType() == Token::Type::OPERATOR) out << ")";
 }
 
 void ExpressionTree::printExpression(std::ostream& out = std::cout) const {
@@ -30,4 +30,4 @@ void ExpressionTree::setRoot(const std::shared_ptr<ExpressionNode>& rootNode) {
 
 std::shared_ptr<ExpressionNode> ExpressionTree::getRoot() const {
     return root;
-} 
+}

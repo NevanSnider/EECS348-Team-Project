@@ -34,11 +34,10 @@ public:
  */
 struct ExpressionNode {
     Token token;
-    std::shared_ptr<ExpressionNode> parent;
     std::shared_ptr<ExpressionNode> left;  
     std::shared_ptr<ExpressionNode> right; 
 
-    ExpressionNode(Token token) : token(token), parent(nullptr), left(nullptr), right(nullptr) {}
+    ExpressionNode(Token token) : token(token), left(nullptr), right(nullptr) {}
 };
 
 

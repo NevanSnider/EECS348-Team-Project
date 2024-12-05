@@ -1,33 +1,60 @@
-#include "expression_tree.hpp"
+#include "parser.hpp"
 #include <iostream>
+#include <memory>
 #include <vector>
 
-ExpressionTree* parse(std::vector<Token>) {
+/*********************
+ * Parsing functions *
+ *********************/
+
+ExpressionTree* parse_expression(std::vector<Token> tokens) {
     // parse implementation here
 
-    ExpressionTree* exp = new ExpressionTree();
+    ExpressionTree* exp = new ExpressionTree(tokens[0]);
     return exp;
 }
 
-void ExpressionTree::printInOrder(const std::shared_ptr<ExpressionNode>& node, std::ostream& out) const {
-    if (!node) return;
+/********************
+ * Dsplay functions *
+ ********************/
 
-    if (node->token.getType() == Token::Type::OPERATOR) out << "(";
-    printInOrder(node->left, out);           
-    out << node->token.display();                     
-    printInOrder(node->right, out);         
-    if (node->token.getType() == Token::Type::OPERATOR) out << ")";
+void ExpressionTree::printInOrder(std::ostream& out) const {
+    if (token.getType() == Token::Type::OPERATOR) out << "(";
+    getLHS()->printInOrder(out);           
+    out << token.display();                     
+    getRHS()->printInOrder(out);         
+    if (token.getType() == Token::Type::OPERATOR) out << ")";
 }
 
 void ExpressionTree::printExpression(std::ostream& out = std::cout) const {
-    printInOrder(root, out);
+    printInOrder(out);
     out << std::endl;
 }
 
-void ExpressionTree::setRoot(const std::shared_ptr<ExpressionNode>& rootNode) {
-    root = rootNode;
+/*******************
+ * Getters/Setters *
+ *******************/
+
+void ExpressionTree::setNode(Token tkn) {
+    token = tkn;
 }
 
-std::shared_ptr<ExpressionNode> ExpressionTree::getRoot() const {
-    return root;
+Token ExpressionTree::getNode() const {
+    return token;
+}
+
+void ExpressionTree::setLHS(std::shared_ptr<ExpressionTree> subtree) {
+    left = subtree;
+}
+
+std::shared_ptr<ExpressionTree> ExpressionTree::getLHS() const {
+    return left;
+}
+
+void ExpressionTree::setRHS(std::shared_ptr<ExpressionTree> subtree) {
+    right = subtree;
+}
+
+std::shared_ptr<ExpressionTree> ExpressionTree::getRHS() const {
+    return right;
 }

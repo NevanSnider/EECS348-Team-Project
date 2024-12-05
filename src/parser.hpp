@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 /*#include "token.hpp"*/
 
 // Temporary mockup of what behavior the parser
@@ -19,12 +20,12 @@ public:
         RIGHT_PARENTHESIS
     };
 
-    Type getType();
-    std::string display();
+    Type getType() const;
+    std::string display() const;
 
     // These are only needed for operators
-    int getPrecedence(); 
-    bool isLeftAssociative();
+    int getPrecedence() const; 
+    bool isLeftAssociative() const;
 };
 // ---------------------
 
@@ -37,7 +38,7 @@ private:
     /**
      * Recursive function to print the tree in infix notation
      */
-    void printInOrder(const std::shared_ptr<ExpressionTree>& node, std::ostream& out) const; 
+    void printInOrder(std::ostream& out) const; 
 
 public:
     /**
@@ -58,7 +59,7 @@ public:
     /**
      * Get the token stored in this node
      */ 
-    Token getNode();
+    Token getNode() const;
 
     /**
      * Set this node's left subtree
@@ -68,7 +69,7 @@ public:
     /**
      * Get this node's left subtree 
      */
-    std::shared_ptr<ExpressionTree> getLHS();
+    std::shared_ptr<ExpressionTree> getLHS() const;
 
     /**
      * Set this node's right subtree
@@ -78,7 +79,12 @@ public:
     /**
      * Get this node's right subtree
      */
-    std::shared_ptr<ExpressionTree> getRHS();
+    std::shared_ptr<ExpressionTree> getRHS() const;
 };
+
+/**
+ * Parse a given list of tokens into an Abstract Syntax Tree
+ */
+ExpressionTree* parse_expression(std::vector<Token> tokens);
 
 #endif 

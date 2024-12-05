@@ -10,14 +10,9 @@ class Token {
     private:
         char type;
     public:
-        //Token constructor
-        Token(vector<char> input, char t) {
-            type = t;
-        }
+        Token(vector<char> input, char t){};
         
-        char getType() {
-            return type;
-        }
+        char getType();
 
 };
 

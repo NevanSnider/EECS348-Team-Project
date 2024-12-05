@@ -2,7 +2,6 @@
 #define OPERATOR_HPP
 
 #include <iostream>
-#include <vector>
 #include "token.hpp"
 using namespace std;
 
@@ -13,31 +12,11 @@ private:
     int priority;
 
 public:
-    //Constructor
-    Operator(vector<char> token) : Token(token, 'o') {
-        op = token.front();
-        setPriority(op);
-    }
-    
-    //Setter method for priority
-    void setPriority(char op) {
-        switch (op) {
-            case '^':
-                priority = 3;
-                break;
-            case '*' || '/' || '%':
-                priority = 2;
-                break;
-            default:
-                priority = 3;
-                break;
-        }
-    }
-    
-    //Getter method for priority
-    int getPriority() {
-        return priority;
-    }
+    Operator(vector<char> token) : Token(token, 'o'){};
+
+    void setPriority(char op);
+
+    int getPriority();
 };
 
 #endif

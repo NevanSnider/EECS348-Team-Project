@@ -18,36 +18,44 @@ bool isValidInput(string s){
 
 
 int main() {
-    cout << "Welcome to the Compiler Expression Parser!" << endl;
-    cout << "Enter your mathematical expression:" << endl;
-    string userInput = "";
-    vector<string> history{};
-    vector<int> answerList{};
-    int answer = 0;
-    bool enteredLoop = false;
+    try {
+        cout << "Welcome to the Compiler Expression Parser!" << endl;
+        cout << "Enter your mathematical expression:" << endl;
+        string userInput = "";
+        vector<string> history{};
+        vector<int> answerList{};
+        int answer = 0;
+        bool enteredLoop = false;
+        
+
+        while (userInput != "END"){
+            system("cls");
+
+            cout << "----------------" << endl;
+            for (int i = 0; i < history.size(); i++){
+                cout << history[i] << endl;
+            }
+            if (enteredLoop == true){
+                cout << answerList.back() << endl;
+            }
+            enteredLoop = true;
+            cin >> userInput;
+            if (userInput == "BACK"){
+                history.pop_back();
+            }
+            if (isValidInput(userInput)){
+                history.push_back(userInput);
+                answerList.push_back(answer);
+                
+            }
+
+            }
+        }
     
-
-    while (userInput != "END"){
-        system("cls");
-
-        cout << "----------------" << endl;
-        for (int i = 0; i < history.size(); i++){
-            cout << history[i] << endl;
-        }
-        if (enteredLoop == true){
-            cout << answerList.back() << endl;
-        }
-        enteredLoop = true;
-        cin >> userInput;
-        if (userInput == "BACK"){
-            history.pop_back();
-        }
-        if (isValidInput(userInput)){
-            history.push_back(userInput);
-            answerList.push_back(answer);
-            
-        }
-
+    //Just a filler error catch, I dont know
+    //what errors will be thrown yet.
+    catch(domain_error){
+        cout << "domain error" << endl;
     }
     
 }

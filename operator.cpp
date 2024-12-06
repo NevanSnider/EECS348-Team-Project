@@ -17,17 +17,17 @@ using namespace std;
     //Setter method for priority
     void Operator::setPriority(char op) {
         switch (op) {
-        case '^':
-            priority = 2;
-            break;
-        case '*' || '/' || '%':
-            priority = 3;
-            break;
         case '(':
             priority = 1;
             break;
         case ')':
             priority = 1;
+            break;
+        case '^':
+            priority = 2;
+            break;
+        case '*' || '/' || '%':
+            priority = 3;
             break;
         default:
             priority = 4;

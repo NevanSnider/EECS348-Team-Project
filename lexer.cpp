@@ -9,7 +9,7 @@ using namespace std;
 
 
 Lexer::Lexer(vector<string> equation) {
-    vector<char> c_equation = convert(equation);
+    c_equation = convert(equation);
     c_equation = replace(c_equation);
 }
 

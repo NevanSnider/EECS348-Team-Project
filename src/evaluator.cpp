@@ -1,62 +1,68 @@
-#include "expression_tree.hpp" // includes ExpressionTree header file
 #include <iostream>
 #include <string>
-#include <cmath> // to do exponentiation and modulo??
+#include <stdexcept>
+#include <cmath> // to do exponentiation and modulo
 
 using namespace std; // to avoid repeating std::
 
-void operation(shared_ptr<ExpressionNode>& node) {
-    double leftVal = stod(node->left->token.display()); //check if valid?
-    double rightVal = stod(node->right->token.display()); // check if valid?
-    node->left= nullptr; // should remove children
-    node->right=nullptr;
-    char op = node->token.getValue(); // should be an operator
+void operation(shared_ptr<ExpressionTree>& node) {
+    if (!node->getLHS() || !node->getRHS()) throw invalid_argument("Invalid tree structure: missing children");
 
-    switch (op) { // replace parent with value of children
+    leftVal = node->getLHS()->getNode().getValue();
+    rightVal = node->getLHS()->getNode().getValue();
+
+    char op = node->getNode().getValue(); // should be an operator
+
+    switch (op) { // replace node with evaluation of children
         case '+': 
-            node->value = leftVal + rightVal; 
+            node->setNode(Value(leftVal + rightVal));
             break;
         case '-':
-            node->value = leftVal - rightVal;
+            node->setNode(Value(leftVal - rightVal));
             break;
         case '*':
-            node->value = leftVal * rightVal;
+            node->setNode(Value(leftVal * rightVal));
+            break;
         case '/':
-            if (rightVal != 0) node->token = leftVal / rightVal;
+            if (rightVal != 0)
+                { node->setNode(Value(leftVal / rightVal)); //floor division
+            } else {
+                throw invalid_argument("Division by zero");
+            }
             break;
         case '%':
-            node->value = leftVal % rightVal; // fmod(leftVal, rightVal);
+            node->setNode(Value( fmod(leftVal, rightVal) ));
             break;
         case '^':
-            node->value = pow(leftVal, rightVal);
+            node->setNode(Value( pow(leftVal, rightVal) ));
             break;
         default:
-            throw std::invalid_argument("recieved invalid operator");
+            throw invalid_argument("Recieved invalid operator" + string(1, op));
     }
 }
 
-// evaluates by in-order recursion
-shared_ptr<ExpressionNode> evaluator(shared_ptr<ExpressionNode>& node){
-    if (node->left == nullptr && node->right == nullptr) return node;
+// evaluates by post-order recursion: don't need return because it changes the actual node rather than makes a copy?
+void evaluator(shared_ptr<ExpressionTree>& node){
+    if (!node) return;
+
+    if (node->getLHS() == nullptr && node->getRHS() == nullptr) return;
     
     // if left node is an operator: go to left child
-    if (node->left->token.getType() == Token::Type::OPERATOR) return evaluator(node->left);
+    if (node->getLHS()->getNode().getType() == Token::Type::OPERATOR) evaluator(node->getLHS());
+
+    // if right node is an operator: go to right child
+    if (node->getRHS()->getNode().getType() == Token::Type::OPERATOR) evaluator(node->getRHS());
 
     // replace the parent node with the expression evaluated with left and right child
     operation(node);
-
-    // if right node is an operator: go to right child
-    if (node->right->token.getType() == Token::Type::OPERATOR) return evaluator(node->right);
-
-    return node; // assume the last node remaining stores the value of the answer
 }
 
-void evaluate(shared_ptr<ExpressionNode>& node) {
+void evaluate(shared_ptr<ExpressionTree>& node) {
     if (!node) {
+        throw invalid_argument( "Expression tree is empty." );
         return;
     } else {
         evaluator(node); // should call recursive function to evaluate expression
     }
 }
   
-

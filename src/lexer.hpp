@@ -11,8 +11,9 @@ class Lexer {
 
     private:
         vector<char> c_equation;
+        vector<Token> tokens;
     public:
-    vector<char> convert(vector<string> original);
+        vector<char> convert(vector<string> original);
         vector<char> replace(vector<char> input);
         int findIndex(vector<char> equation);
         bool checkOp(char index);

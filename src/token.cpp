@@ -30,9 +30,11 @@ using namespace std;
         switch (op) {
             case '(':
             priority = 1;
+            type = 'l';
             break;
         case ')':
             priority = 1;
+            type='r';
             break;
         case '^':
             priority = 2;

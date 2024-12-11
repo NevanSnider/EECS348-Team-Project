@@ -11,12 +11,12 @@ class Token {
         char type;
         int priority;
         char op;
-        char id;
         double value;
     public:
         Token(vector<char> input, char t);
         
         char getType();
+        char getOp();
         void setPriority(char op);
         int getPriority();
         void setValue(vector<char> value);

@@ -97,6 +97,10 @@ using namespace std;
         return type;
     }
 
+    char Token::getOp() {
+        return op;
+    }
+
     //Getter method for priority
     int Token::getPriority() {
         return priority;

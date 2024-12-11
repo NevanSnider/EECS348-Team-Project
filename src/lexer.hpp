@@ -20,6 +20,7 @@ class Lexer {
         Token createToken(vector<char> token);
         Lexer(vector<string> equation);
         vector<Token> tokenization();
+        int countToks(vector<char> eq);
 };
 
 #endif

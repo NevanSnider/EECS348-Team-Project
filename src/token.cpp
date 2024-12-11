@@ -1,15 +1,44 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 #include "token.hpp"
 using namespace std;
 
 
-    int find(vector<char> line, char elem) {
+    int Token::find(vector<char> line, char elem) {
         for (int i=0; i < line.size(); i++) {
             if (line[i] == elem) return i;
         }
         return -1;
+    }
+    
+    double Token::findNum(char elem) {
+    char nums[] = {'0','1','2','3','4','5','6','7','8','9'};
+    double decimals[] = {0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0};
+    for (int i=0; i < 10; i++) {
+        if (nums[i] == elem) return decimals[i];
+    }
+    return -1;
+}
+
+    double Token::extractNumeric(vector<char> str_num) {
+        double num, place;
+        int i = 0, length = str_num.size();
+        if (find(str_num, '.') > -1) {
+            int n = find(str_num, '.') - i;
+            place = pow(10.0, n-1);
+        }
+        else {
+            int n = length;
+            place = pow(10.0, n-1);
+        }
+        for (i; i < length; i++) {
+            if (str_num[i] == '.') continue;
+            num = i==0 ? place*findNum(str_num[i]) : num + place*findNum(str_num[i]);
+            place /= 10;
+        }
+        return num;
     }
 
     //Token constructor
@@ -60,12 +89,8 @@ using namespace std;
     }
     }
 
-    template <typename T>
-    T Token::getValue() {
-        if (id == 'd'){
-            return dval;
-        }
-        return ival;
+    double Token::getValue() {
+        return value;
     }
 
     char Token::getType() {
@@ -79,13 +104,9 @@ using namespace std;
 
     //Setter method for value
     void Token::setValue(vector<char> token) {
-        if (find(token, '.') > 0) {
-            //double value = convert token to double
-        }
-        else {
-            //int value = convert token to int
-        }
-    } 
+        value = extractNumeric(token);
+    }
+    
 
 
 

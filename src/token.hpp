@@ -12,8 +12,7 @@ class Token {
         int priority;
         char op;
         char id;
-        double dval;
-        int ival;
+        double value;
     public:
         Token(vector<char> input, char t);
         
@@ -21,8 +20,10 @@ class Token {
         void setPriority(char op);
         int getPriority();
         void setValue(vector<char> value);
-        template <typename T>
-        T getValue();
+        double getValue();
+        int find(vector<char> line, char elem);
+        double findNum(char elem);
+        double extractNumeric(vector<char> input);
 
 };
 

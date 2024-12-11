@@ -8,8 +8,8 @@ using namespace std; // to avoid repeating std::
 void operation(shared_ptr<ExpressionTree>& node) {
     if (!node->getLHS() || !node->getRHS()) throw invalid_argument("Invalid tree structure: missing children");
 
-    leftVal = node->getLHS()->getNode().getValue();
-    rightVal = node->getLHS()->getNode().getValue();
+    double leftVal = node->getLHS()->getNode().getValue();
+    double rightVal = node->getLHS()->getNode().getValue();
 
     char op = node->getNode().getOp(); // should be an operator
 
@@ -45,6 +45,7 @@ void operation(shared_ptr<ExpressionTree>& node) {
 void evaluator(shared_ptr<ExpressionTree>& node){
     if (!node) return;
 
+    // if somehow traversed to a leaf, return
     if (node->getLHS() == nullptr && node->getRHS() == nullptr) return;
     
     // if left node is an operator: go to left child

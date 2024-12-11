@@ -11,7 +11,7 @@ void operation(shared_ptr<ExpressionTree>& node) {
     leftVal = node->getLHS()->getNode().getValue();
     rightVal = node->getLHS()->getNode().getValue();
 
-    char op = node->getNode().getValue(); // should be an operator
+    char op = node->getNode().getOp(); // should be an operator
 
     switch (op) { // replace node with evaluation of children
         case '+': 

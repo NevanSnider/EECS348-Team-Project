@@ -4,6 +4,10 @@
 #include <vector>
 #include <cmath> // to do exponentiation and modulo
 
+#include "evaluator.hpp"
+#include "parser.hpp"
+#include "token.hpp"
+
 using namespace std; // to avoid repeating std::
 
 // helper function to convert double values to vector<char>
@@ -19,6 +23,7 @@ vector<char> doubletoCharVector(double value) {
     return result;
 }
 
+// performs operation
 void operation(shared_ptr<ExpressionTree>& node) {
     if (!node->getLHS() || !node->getRHS()) throw invalid_argument("Invalid tree structure: missing children");
 

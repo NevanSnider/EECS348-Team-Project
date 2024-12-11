@@ -1,13 +1,10 @@
 #include "parser.hpp"
-#include <iostream>
-#include <memory>
-#include <vector>
 
 /*********************
  * Parsing functions *
  *********************/
 
-ExpressionTree* parse_expression(std::vector<Token> tokens) {
+ExpressionTree* parse_expression(std::vector<Token>& tokens) {
     // parse implementation here
 
     ExpressionTree* exp = new ExpressionTree(tokens[0]);
@@ -18,15 +15,21 @@ ExpressionTree* parse_expression(std::vector<Token> tokens) {
  * Dsplay functions *
  ********************/
 
-void ExpressionTree::printInOrder(std::ostream& out) const {
-    if (token.getType() == Token::Type::OPERATOR) out << "(";
-    getLHS()->printInOrder(out);           
-    out << token.display();                     
-    getRHS()->printInOrder(out);         
-    if (token.getType() == Token::Type::OPERATOR) out << ")";
+void ExpressionTree::printInOrder(std::ostream& out) {
+    if (token.getType() == 'o') {
+        out << '(';
+        getLHS()->printInOrder(out);
+        out << ' ';
+    }
+    out << token.getType(); // token class still needs a display function             
+    if (token.getType() == 'o') {
+        out << ' ';
+        getRHS()->printInOrder(out);         
+        out << ')';
+    }
 }
 
-void ExpressionTree::printExpression(std::ostream& out = std::cout) const {
+void ExpressionTree::printExpression(std::ostream& out = std::cout) {
     printInOrder(out);
     out << std::endl;
 }

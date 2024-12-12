@@ -97,8 +97,9 @@ Token Lexer::createToken(vector<char> tokenChars) {
     }
 
     if (checkOp(tokenChars.front())) {
-        // handles and checks for urnary minus
-        if (tokenChars.front() == '-' && (tokens.empty() ||
+        // handles and checks for urnary minus or plus
+        if ((tokenChars.front() == '-' || tokenChars.front() == '+')
+            && (tokens.empty() ||
             tokens.back().getType() == 'o' ||
             tokens.back().getOp() == '(')) {
             return Token(tokenChars, 'u');

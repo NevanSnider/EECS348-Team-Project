@@ -17,6 +17,7 @@ void TC01 () {
 
     if (expected != parsed) {
         ostringstream oss;
+        oss << tokenized << endl;
         oss << "Expected: " << expected << endl;
         oss << "Actual:   " << parsed << endl;
         throw logic_error(oss.str());

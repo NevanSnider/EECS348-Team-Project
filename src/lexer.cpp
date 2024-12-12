@@ -14,7 +14,7 @@ Lexer::Lexer(vector<string> equation) {
 
 vector<Token> Lexer::tokenization() {
     int count = countToks(c_equation);
-    while (count > 1) {
+    while (count >= 1) {
         int index = findIndex(c_equation);
         if (index == 0) {
             tokens.push_back(createToken(c_equation));
@@ -89,13 +89,13 @@ Token Lexer::createToken(vector<char> token) {
     
 int Lexer::countToks(vector<char> eq) {
     int count = 0, i = 0;
-    while (i < eq.size()) {
+    while (i < eq.size() - 1) {
         if (checkOp(eq[i])) {
             i++;
         }
         else {
             vector<char> val(eq.begin()+i, eq.end());
-            i = findIndex(val);
+            i += findIndex(val);
         }
         count++;
     }

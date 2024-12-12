@@ -31,6 +31,7 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                         break;
                     }
                 }
+
                 ops.push(token);
                 break;
             }
@@ -43,15 +44,17 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                 while (!ops.empty()) {
                     Token next = ops.top();
                     ops.pop();
-                    output.push_back(next);
 
                     if (next.getType() == 'l') {
                         matched = true;
                         break;
                     }
+
+                    output.push_back(next);
                 }
 
                 if (!matched) {
+                    cout << "mismatched\n";
                     // TODO: throw parsing error
                 }
             }
@@ -65,6 +68,7 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
 
         // should be no parentheses left
         if (next.getType() != 'o') {
+            cout << "mismatched\n";
             // TODO: throw parsing error
         } else {
             output.push_back(next);
@@ -80,12 +84,13 @@ std::shared_ptr<ExpressionTree> create_subtree(
     int* last_index_ptr
 ) {
     if (*last_index_ptr < 0) {
-        // Incomplete expression
+        cout << "Incomplete expression" << endl;
         // TODO: throw error
     }
 
     // Read root token and decrement
-    Token token = tokens[*last_index_ptr--];
+    Token token = tokens[(*last_index_ptr)--];
+
     ExpressionTree* subtree = new ExpressionTree(token);
 
     // If it's an operator, look for operands

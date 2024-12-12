@@ -87,6 +87,12 @@ double Token::extractNumeric(const vector<char>& str_num) const {
     double num = 0.0, place;
     size_t i = 0, length = str_num.size();
     int dotIndex = find(str_num, '.');
+
+    bool negative = str_num[0] == '-';
+    if (negative) {
+        dotIndex -= 1;
+        i++;
+    }
     
     if (dotIndex != -1) {
         int n = dotIndex;
@@ -103,5 +109,6 @@ double Token::extractNumeric(const vector<char>& str_num) const {
         num += digit * place;
         place /= 10;
     }
+
     return num;
 }

@@ -1,7 +1,7 @@
 #include "testing.hpp"
 #include "cases.hpp"
-#include <memory>
 #include <sstream>
+#include <stdexcept>
 
 string tokens_repr(vector<Token> tokens, bool types_only) {
     ostringstream oss;
@@ -42,7 +42,9 @@ int main () {
     Test tests[] = {
         {"TCO1", TC01},
         {"TCO2", TC02},
-        {"TCO3", TC03}
+        {"TCO3", TC03},
+        {"TC04", TC04},
+        {"TCO5", TC05}
     };
 
     int pass_count = 0;
@@ -56,7 +58,7 @@ int main () {
             pass_count++;
         } catch (const std::logic_error& e) {
             std::cout << " FAIL" << std::endl;
-            std::cout << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
     }
 

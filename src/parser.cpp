@@ -1,6 +1,7 @@
 #include "parser.hpp"
 #include <memory>
 #include <stack>
+#include <stdexcept>
 
 /*********************
  * Parsing functions *
@@ -23,9 +24,9 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                 while (!ops.empty() && ops.top().getType() != 'l') {
                     int priority = ops.top().getPriority();
                     if (
-                        priority <= token.getPriority() ||
+                        priority <= token.getPriority() /*||
                         (priority < token.getPriority() && 
-                        (ops.top().getOp() == '^' || ops.top().getType() == 'u'))
+                        (ops.top().getOp() == '^' || ops.top.getType()))*/
                     ) {
                         output.push_back(ops.top());
                         ops.pop();
@@ -56,8 +57,7 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                 }
 
                 if (!matched) {
-                    std::cerr << "mismatched parentheses\n";
-                    // TODO: throw parsing error
+                    throw invalid_argument("mismatched parentheses");
                 }
                 break;
             }
@@ -71,8 +71,7 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
 
         // should be no parentheses left
         if (next.getType() == 'l' || next.getType() == 'r') {
-            std::cerr << "mismatched parentheses\n";
-            // TODO: throw parsing error
+            throw invalid_argument("mismatched parentheses");
         } else {
             output.push_back(next);
         }
@@ -87,8 +86,7 @@ std::shared_ptr<ExpressionTree> create_subtree(
     int* last_index_ptr
 ) {
     if (*last_index_ptr < 0) {
-        std::cerr << "Incomplete expression" << std::endl;
-        // TODO: throw error
+        throw invalid_argument("invalid expression");
     }
 
     // Read root token and decrement

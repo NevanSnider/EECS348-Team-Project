@@ -1,5 +1,7 @@
 #include "token.hpp"
 #include <cmath>
+#include <sstream>
+#include <stdexcept>
 
 // Token constructor
 Token::Token(const vector<char>& input, char t) {
@@ -105,7 +107,13 @@ double Token::extractNumeric(const vector<char>& str_num) const {
     for (; i < length; i++) {
         if (str_num[i] == '.') continue;
         double digit = findNum(str_num[i]);
-        if (digit == -1) continue; // Handle unexpected characters gracefully
+
+        if (digit == -1) { 
+            ostringstream error;
+            error << "Invalid character '" << str_num[i] << "' encountered.";
+            throw invalid_argument(error.str());
+        }
+
         num += digit * place;
         place /= 10;
     }

@@ -164,3 +164,53 @@ void TC06 () {
     error << "Divide by zero in '" << expr << "' not detected.\n";
     throw logic_error(error.str());
 }
+
+void TC07 () {
+    const string expr = "3+4*abc";
+
+    // Test lexer and parser together
+    Lexer lexer = Lexer({expr});
+
+    try {
+        vector<Token> tokens = lexer.tokenization();
+        auto tree = parse_expression(tokens);
+        double result = evaluate(tree);
+    } catch (const invalid_argument& e){
+        // expected result
+        return;
+    }
+
+    ostringstream error;
+    error << "Invalid characters in '" << expr << "' not detected.\n";
+    throw logic_error(error.str());
+}
+
+void TC08 () {
+    const string expr = "42";
+    const string expected_tree = "42";
+    const double expected_value = 42;
+
+    // Test lexer and parser together
+    Lexer lexer = Lexer({expr});
+    vector<Token> tokens = lexer.tokenization();
+    auto tree = parse_expression(tokens);
+
+    string repr = tree_repr(tree);
+    if (expected_tree != repr) {
+        ostringstream error;
+        error << "Parse Failure" << endl;
+        error << "Expected: " << expected_tree << endl;
+        error << "Actual:   " << repr << endl;
+        throw logic_error(error.str());
+    }
+    
+    // Evaluate
+    double result = evaluate(tree);
+    if (result != expected_value) {
+        ostringstream error;
+        error << "Evaluation Failure" << endl;
+        error << "Expected: " << expected_value << endl;
+        error << "Actual:   " << result << endl;
+        throw logic_error(error.str());
+    }
+}

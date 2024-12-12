@@ -44,7 +44,10 @@ int main () {
         {"TCO2", TC02},
         {"TCO3", TC03},
         {"TC04", TC04},
-        {"TCO5", TC05}
+        {"TCO5", TC05},
+        {"TC06", TC06},
+        {"TC07", TC07},
+        {"TC08", TC08},
     };
 
     int pass_count = 0;

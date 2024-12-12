@@ -1,4 +1,4 @@
-
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,6 +13,9 @@ bool isValidInput(string s){
         if (validChars.count(s[i]) == 0){
             return false;
         }
+	if (s[i] == '-' && i != 0 && !strchr("+-*/(", s[i-1])){
+	  return false;
+      }
     }
     return true;
 }

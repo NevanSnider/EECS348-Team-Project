@@ -1,19 +1,20 @@
+#include "lexer.hpp"
+#include "token.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
-#include "token.hpp"
-#include "lexer.hpp"
 using namespace std;
 
-//Constructor for Lexer
-    //Converts the vector<string> form user input to a vector<char>
-    //Replaces all of the negative signs with an underscore and the ** operator with a ^
+// Lexer constructor
 Lexer::Lexer(vector<string> equation) {
+    if (equation.empty()) {
+        throw invalid_argument("Equation vector is empty.");
+    }
     c_equation = convert(equation);
     c_equation = replace(c_equation);
 }
 
-
+// Tokenize the converted and replaced equation
 vector<Token> Lexer::tokenization() {
     int count = countToks(c_equation);
     while (count >= 1) {
@@ -23,74 +24,58 @@ vector<Token> Lexer::tokenization() {
             break;
         }
         if (index == 0) {
-            if (c_equation.front() == '&') {
-                c_equation.erase(c_equation.begin());
-                count--;
-                continue;
-            }
-            tokens.push_back(createToken(c_equation));
             c_equation.erase(c_equation.begin());
         }
-        else {
-            vector<char> val(c_equation.begin(), c_equation.begin()+index);
+        else if (index > 0) {
+            vector<char> val(c_equation.begin(), c_equation.begin() + index);
             tokens.push_back(createToken(val));
-            c_equation.erase(c_equation.begin(), c_equation.begin()+index);
+            c_equation.erase(c_equation.begin(), c_equation.begin() + index);
+        }
+        else { // index == -1
+            tokens.push_back(createToken(c_equation));
+            break;
         }
         count--;
     }
-    tokens.push_back(createToken(c_equation));
-    
     return tokens;
 }
 
-//Takes a string vector, loops through it, and 
+// Convert the first string in the vector to a vector of chars
 vector<char> Lexer::convert(vector<string> original) {
     vector<char> converted;
-    for (int i=0; i < original[0].size(); i++) {
+    for (size_t i = 0; i < original[0].size(); i++) {
         converted.push_back(original[0][i]);
     }
     return converted;
 }
 
+// Replace '**' with '^' to handle exponentiation
 vector<char> Lexer::replace(vector<char> input) {
     vector<char> output;
-    int i = 0;
+    size_t i = 0;
     while (i < input.size()) {
-        if (input[i] == '*' && input[i+1] == '*') {
+        // Handle '**' to '^'
+        if (i + 1 < input.size() && input[i] == '*' && input[i + 1] == '*') {
             output.push_back('^');
-            i++;
+            i += 2;
+            continue;
         }
-        else if (checkOp(input[i]) && input[i+1] == '-') {
+        // this replaces multiplication by parathnes with *...  ex. 5(4+1) --> 5 * (4 + 1)
+        if (i + 1 < input.size() && isdigit(input[i]) && input[i + 1] == '(') {
             output.push_back(input[i]);
-            if (checkNum(input[i+2])) {
-                output.push_back('_');
-                i++;
-            }
+            output.push_back('*');
+            i += 1;
+            continue;
         }
-        else if (i == 0 && input[i] == '-') {
-            output.push_back('_');
-        }
-        else if (checkOp(input[i]) && input[i+1] == '+') {
-            output.push_back(input[i]);
-            if (checkNum(input[i+2])) {
-                output.push_back('&');
-                i++;
-            }
-        }
-        else if (i == 0 && input[i] == '+') {
-            output.push_back('&');
-        }
-        else {
-            output.push_back(input[i]);
-        }
+        output.push_back(input[i]);
         i++;
     }
     return output;
 }
 
 bool Lexer::checkOp(char index) {
-    vector<char> ops = {'+','-','*','/','%','^','(',')','_','&'};
-    for (int i=0; i < ops.size(); i++) {
+    vector<char> ops = {'+', '-', '*', '/', '%', '^', '(', ')'};
+    for (size_t i = 0; i < ops.size(); i++) {
         if (ops[i] == index) {
             return true;
         }
@@ -98,56 +83,54 @@ bool Lexer::checkOp(char index) {
     return false;
 }
 
-bool Lexer::checkNum(char index) {
-    vector<char> nums = {'0','1','2','3','4','5','6','7','8','9'};
-    for (int i=0; i < nums.size(); i++) {
-        if (nums[i] == index) {
-            return true;
-        }
-    }
-    return false;
-}
-
+// Find the index of the first operator in the equation
 int Lexer::findIndex(vector<char> equation) {
-    for (int i=0; i < equation.size(); i++) {
+    for (size_t i = 0; i < equation.size(); i++) {
         if (checkOp(equation[i])) {
-            return i;
+            return static_cast<int>(i);
         }
     }
     return -1;
 }
 
-Token Lexer::createToken(vector<char> token) {
-    if (checkOp(token.front())) {
-        if (token.front() == '_') {
-            Token tok(token, 'u');
-            return tok;
+// Create a token based on the characters provided
+Token Lexer::createToken(vector<char> tokenChars) {
+    if (tokenChars.empty()) {
+        throw invalid_argument("Token characters vector is empty.");
+    }
+
+    if (checkOp(tokenChars.front())) {
+        // handles and checks for urnary minus
+        if (tokenChars.front() == '-' && (tokens.empty() ||
+            tokens.back().getType() == 'o' ||
+            tokens.back().getOp() == '(')) {
+            return Token(tokenChars, 'u');
         }
-        else {
-            Token tok(token, 'o');
-            return tok;
-        }
+        return Token(tokenChars, 'o');
     }
     else {
-        Token tok(token, 'v');
-        return tok;
+        return Token(tokenChars, 'v');
     }
 }
-    
+
+// Count the number of tokens in the equation
 int Lexer::countToks(vector<char> eq) {
-    int count = 0, i = 0;
-    while (i < eq.size() - 1) {
+    int count = 0;
+    size_t i = 0;
+    while (i < eq.size()) {
         if (checkOp(eq[i])) {
+            count++;
             i++;
         }
         else {
-            vector<char> val(eq.begin()+i, eq.end());
-            i += findIndex(val);
-            if (findIndex(val) == -1) {
-                return count;
-            } 
+            int index = findIndex(vector<char>(eq.begin() + i, eq.end()));
+            if (index == -1) {
+                count++;
+                break;
+            }
+            count++;
+            i += static_cast<size_t>(index);
         }
-        count++;
     }
     return count;
 }

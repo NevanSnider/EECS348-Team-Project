@@ -18,7 +18,8 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                 output.push_back(token);
                 break;
             }
-            case 'o': {
+            case 'o':
+            case 'u': {
                 while (!ops.empty() && ops.top().getType() != 'l') {
                     int priority = ops.top().getPriority();
                     if (priority <= token.getPriority() ||
@@ -54,9 +55,10 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
                 }
 
                 if (!matched) {
-                    cout << "mismatched\n";
+                    std::cerr << "mismatched parentheses\n";
                     // TODO: throw parsing error
                 }
+                break;
             }
         }
     }
@@ -67,8 +69,8 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
         ops.pop();
 
         // should be no parentheses left
-        if (next.getType() != 'o') {
-            cout << "mismatched\n";
+        if (next.getType() == 'l' || next.getType() == 'r') {
+            std::cerr << "mismatched parentheses\n";
             // TODO: throw parsing error
         } else {
             output.push_back(next);
@@ -84,22 +86,25 @@ std::shared_ptr<ExpressionTree> create_subtree(
     int* last_index_ptr
 ) {
     if (*last_index_ptr < 0) {
-        cout << "Incomplete expression" << endl;
+        std::cerr << "Incomplete expression" << std::endl;
         // TODO: throw error
     }
 
     // Read root token and decrement
     Token token = tokens[(*last_index_ptr)--];
 
-    ExpressionTree* subtree = new ExpressionTree(token);
+    std::shared_ptr<ExpressionTree> subtree = std::make_shared<ExpressionTree>(token);
 
     // If it's an operator, look for operands
     if (token.getType() == 'o') {
         subtree->setRHS(create_subtree(tokens, last_index_ptr));
         subtree->setLHS(create_subtree(tokens, last_index_ptr));
+    } else if (token.getType() == 'u') { // added to handle unary 
+        subtree->setRHS(create_subtree(tokens, last_index_ptr));
+        // unary operators usually only have one operand
     }
 
-    return std::shared_ptr<ExpressionTree>(subtree);
+    return subtree;
 }
 
 std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& tokens) {
@@ -114,28 +119,33 @@ std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& token
  *********************/
 
 void ExpressionTree::printInOrder(std::ostream& out) {
-    if (token.getType() == 'o') {
+    if (token.getType() == 'o' || token.getType() == 'u') {
         out << '(';
-        getLHS()->printInOrder(out);
-        out << ' ';
-        char op = token.getOp();
-        
-        if (op == '^') {
-            out << "**";
+        if (token.getType() == 'u') {
+            out << '-'; 
+            getRHS()->printInOrder(out);
         } else {
-            out << op;
+            getLHS()->printInOrder(out);
+            out << ' ';
+            char op = token.getOp();
+            
+            if (op == '^') {
+                out << "**";
+            } else {
+                out << op;
+            }
+            out << ' ';
+            getRHS()->printInOrder(out);   
         }
     } else {
         out << token.getValue();
     }
-    if (token.getType() == 'o') {
-        out << ' ';
-        getRHS()->printInOrder(out);         
+    if (token.getType() == 'o' || token.getType() == 'u') {
         out << ')';
     }
 }
 
-void ExpressionTree::printExpression(std::ostream& out = std::cout) {
+void ExpressionTree::printExpression(std::ostream& out) {
     printInOrder(out);
     out << std::endl;
 }

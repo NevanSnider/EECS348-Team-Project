@@ -1,8 +1,7 @@
+// token.hpp
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
-#include <iostream>
-#include <string>
 #include <vector>
 using namespace std;
 
@@ -14,19 +13,17 @@ class Token {
         double value;
         int sign;
     public:
-        Token(vector<char> input, char t);
+        Token(const vector<char>& input, char t);
         
-        char getType();
-        char getOp();
+        char getType() const;
+        char getOp() const;
         void setPriority(char op);
-        int getPriority();
-        int getSign();
-        void setValue(vector<char> value);
-        double getValue();
-        int find(vector<char> line, char elem);
-        double findNum(char elem);
-        double extractNumeric(vector<char> input);
-
+        int getPriority() const;
+        void setValue(const vector<char>& input);
+        double getValue() const;
+        int find(const vector<char>& line, char elem) const;
+        double findNum(char elem) const;
+        double extractNumeric(const vector<char>& input) const;
 };
 
 #endif

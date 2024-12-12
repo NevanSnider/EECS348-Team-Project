@@ -34,23 +34,25 @@ string tree_repr(shared_ptr<ExpressionTree> tree) {
 
 int main () {
     Test tests[] = {
-        {"TCO1", TC01}
+        {"TCO1", TC01},
+        {"TCO2", TC02},
+        {"TCO3", TC03}
     };
 
     int pass_count = 0;
 
     for (Test& test : tests) {
-        cout << "Test " << test.name << "...";
+        std::cout << "Test " << test.name << "...";
 
         try {
             test.test_fn();
-            cout << " PASS" << endl;
+            std::cout << " PASS" << std::endl;
             pass_count++;
-        } catch (const logic_error& e) {
-            cout << " FAIL" << endl;
-            cout << e.what() << endl;
+        } catch (const std::logic_error& e) {
+            std::cout << " FAIL" << std::endl;
+            std::cout << e.what() << std::endl;
         }
     }
 
-    cout << "Passed " << pass_count << " / " << size(tests) << " tests." << endl;
+    std::cout << "Passed " << pass_count << " / " << (sizeof(tests)/sizeof(Test)) << " tests." << std::endl;
 }

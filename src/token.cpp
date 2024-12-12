@@ -1,131 +1,107 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cmath>
 #include "token.hpp"
-using namespace std;
+#include <cmath>
 
-    //Returns the index of a given character in a char vector
-    //If the character is not found, -1 is returned
-    int Token::find(vector<char> line, char elem) {
-        for (int i=0; i < line.size(); i++) {
-            if (line[i] == elem) return i;
-        }
-        return -1;
+// Token constructor
+Token::Token(const vector<char>& input, char t) {
+    type = t;
+    if (t == 'o' || t == 'u') { 
+        op = input.front();
+        setPriority(op);
     }
-    
-    //Takes a single digit number and converts it to the specified double value
-    double Token::findNum(char elem) {
-    char nums[] = {'0','1','2','3','4','5','6','7','8','9'};
-    double decimals[] = {0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0};
-    for (int i=0; i < 10; i++) {
-        if (nums[i] == elem) return decimals[i];
+    else {
+        setPriority('1');
+        setValue(input);
     }
-    return -1;
 }
-    //Takes a number in a char vector and converts it to a double
-    double Token::extractNumeric(vector<char> str_num) {
-        double num, place;
-        int i = 0, length = str_num.size();
-        if (find(str_num, '.') > -1) {
-            int n = find(str_num, '.') - i;
-            place = pow(10.0, n-1);
-        }
-        else {
-            int n = length;
-            place = pow(10.0, n-1);
-        }
-        for (i; i < length; i++) {
-            if (str_num[i] == '.') continue;
-            num = i==0 ? place*findNum(str_num[i]) : num + place*findNum(str_num[i]);
-            place /= 10;
-        }
-        return num;
-    }
 
-    //Token constructor
-    Token::Token(vector<char> input, char t) {
-        type = t;
-        if (t == 'o') {
-            op = input.front();
-            setPriority(op);
-        }
-        else if (t == 'u') {
-            sign = -1;
-            priority = -1;
+// Getter methods for value
+char Token::getType() const {
+    return type;
+}
 
-        }
-        else {
-            setPriority('1');
-            setValue(input);
-        }
-    }
-    
-    //Setter method for priority
-    void Token::setPriority(char op) {
-        switch (op) {
-            case '(':
+char Token::getOp() const {
+    return op;
+}
+
+int Token::getPriority() const {
+    return priority;
+}
+
+double Token::getValue() const {
+    return value;
+}
+
+// Setter method for priority
+void Token::setPriority(char opChar) {
+    switch (opChar) {
+        case '(':
             priority = 1;
             type = 'l';
             break;
         case ')':
             priority = 1;
-            type='r';
+            type = 'r';
             break;
         case '^':
             priority = 2;
             break;
         case '*':
-            priority = 3;
-            break;
         case '/':
-            priority = 3;
-            break;
         case '%':
             priority = 3;
             break;
         case '+':
-            priority = 4;
-            break;
         case '-':
-            priority = 4;
+            priority = (type == 'u') ? 2 : 4; // Higher priority for unary
+            break;
+        case 'u': // Defines the priority for unary
+            priority = 2;
             break;
         default:
             priority = -1;
             break;
     }
-    }
+}
 
-    //Getter method for sign
-    int Token::getSign() {
-        return sign;
-    }
+void Token::setValue(const vector<char>& input) {
+    value = extractNumeric(input);
+}
 
-    //Getter method for value
-    double Token::getValue() {
-        return value;
+int Token::find(const vector<char>& line, char elem) const {
+    for (size_t i = 0; i < line.size(); i++) {
+        if (line[i] == elem) return static_cast<int>(i);
     }
+    return -1;
+}
 
-    //Getter method for type
-    char Token::getType() {
-        return type;
+double Token::findNum(char elem) const {
+    char nums[] = {'0','1','2','3','4','5','6','7','8','9'};
+    double decimals[] = {0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0};
+    for (int i = 0; i < 10; i++) {
+        if (nums[i] == elem) return decimals[i];
+    }
+    return -1;
+}
+
+double Token::extractNumeric(const vector<char>& str_num) const {
+    double num = 0.0, place;
+    size_t i = 0, length = str_num.size();
+    int dotIndex = find(str_num, '.');
+    
+    if (dotIndex != -1) {
+        int n = dotIndex;
+        place = pow(10.0, n - 1);
+    }
+    else {
+        place = pow(10.0, length - 1);
     }
     
-    //Getter method for operator type
-    char Token::getOp() {
-        return op;
+    for (; i < length; i++) {
+        if (str_num[i] == '.') continue;
+        double digit = findNum(str_num[i]);
+        if (digit == -1) continue; // Handle unexpected characters gracefully
+        num += digit * place;
+        place /= 10;
     }
-
-    //Getter method for priority
-    int Token::getPriority() {
-        return priority;
-    }
-
-    //Setter method for value
-    void Token::setValue(vector<char> token) {
-        value = extractNumeric(token);
-    }
-    
-
-
-
+    return num;
+}

@@ -5,21 +5,75 @@
 #include "cases.hpp"
 
 void TC01 () {
-    const string expr = "(3+(4*2))-5";
-    const string expected = "((3 + (4 * 2)) - 5)";
+    const std::string expr = "(3+(4*2))-5";
+    const std::string expected = "((3 + (4 * 2)) - 5)\n";
 
     Lexer* lexer = new Lexer({expr});
-    vector<Token> tokens = lexer->tokenization();
-    string tokenized = tokens_repr(tokens);
-
+    std::vector<Token> tokens = lexer->tokenization();
     std::shared_ptr<ExpressionTree> tree = parse_expression(tokens);
-    string parsed = tree_repr(tree);
 
-    if (expected != parsed) {
-        ostringstream oss;
-        oss << tokenized << endl;
-        oss << "Expected: " << expected << endl;
-        oss << "Actual:   " << parsed << endl;
-        throw logic_error(oss.str());
+    std::ostringstream oss;
+    tree->printExpression(oss);
+    std::string repr = oss.str();
+
+    if (expected != repr) {
+        std::ostringstream error;
+        error << "Expected: " << expected << std::endl;
+        error << "Actual:   " << repr << std::endl;
+        delete lexer;
+        throw std::logic_error(error.str());
     }
+
+    std::cout << "Actual: " << repr;
+    delete lexer;
 }
+
+void TC02 () {
+    const std::string expr = "-3+(4*-2)";
+    const std::string expected = "((-3) + (4 * (-2)))\n";
+
+    Lexer* lexer = new Lexer({expr});
+    std::vector<Token> tokens = lexer->tokenization();
+    std::shared_ptr<ExpressionTree> tree = parse_expression(tokens);
+
+    std::ostringstream oss;
+    tree->printExpression(oss);
+    std::string repr = oss.str();
+
+    if (expected != repr) {
+        std::ostringstream error;
+        error << "Expected: " << expected << std::endl;
+        error << "Actual:   " << repr << std::endl;
+        delete lexer;
+        throw std::logic_error(error.str());
+    }
+
+    std::cout << "Actual: " << repr;
+    delete lexer;
+}
+
+void TC03 () {
+    const std::string expr = "-4+6(9+1)";
+    const std::string expected = "((-4) + (6 * (9 + 1)))\n";
+
+    Lexer* lexer = new Lexer({expr});
+    std::vector<Token> tokens = lexer->tokenization();
+    std::shared_ptr<ExpressionTree> tree = parse_expression(tokens);
+
+    std::ostringstream oss;
+    tree->printExpression(oss);
+    std::string repr = oss.str();
+
+    if (expected != repr) {
+        std::ostringstream error;
+        error << "Expected: " << expected << std::endl;
+        error << "Actual:   " << repr << std::endl;
+        delete lexer;
+        throw std::logic_error(error.str());
+    }
+
+    std::cout << "Actual: " << repr;
+    delete lexer;
+}
+
+

@@ -110,5 +110,9 @@ double Token::extractNumeric(const vector<char>& str_num) const {
         place /= 10;
     }
 
+    if (negative) {
+        num *= -1;
+    }
+
     return num;
 }

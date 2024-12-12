@@ -22,9 +22,10 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
             case 'u': {
                 while (!ops.empty() && ops.top().getType() != 'l') {
                     int priority = ops.top().getPriority();
-                    if (priority <= token.getPriority() ||
-                        (priority < token.getPriority() 
-                        && ops.top().getOp() == '^')
+                    if (
+                        priority <= token.getPriority() ||
+                        (priority < token.getPriority() && 
+                        (ops.top().getOp() == '^' || ops.top().getType() == 'u'))
                     ) {
                         output.push_back(ops.top());
                         ops.pop();
@@ -120,11 +121,11 @@ std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& token
 
 void ExpressionTree::printInOrder(std::ostream& out) {
     if (token.getType() == 'o' || token.getType() == 'u') {
-        out << '(';
         if (token.getType() == 'u') {
-            out << '-'; 
+            out << token.getOp(); 
             getRHS()->printInOrder(out);
         } else {
+            out << '(';
             getLHS()->printInOrder(out);
             out << ' ';
             char op = token.getOp();
@@ -134,13 +135,14 @@ void ExpressionTree::printInOrder(std::ostream& out) {
             } else {
                 out << op;
             }
+
             out << ' ';
             getRHS()->printInOrder(out);   
         }
     } else {
         out << token.getValue();
     }
-    if (token.getType() == 'o' || token.getType() == 'u') {
+    if (token.getType() == 'o') {
         out << ')';
     }
 }

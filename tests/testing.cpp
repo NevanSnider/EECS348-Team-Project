@@ -3,13 +3,19 @@
 #include <memory>
 #include <sstream>
 
-string tokens_repr(vector<Token> tokens) {
+string tokens_repr(vector<Token> tokens, bool types_only) {
     ostringstream oss;
 
     for (Token token : tokens) {
+        if (types_only) {
+            oss << token.getType();
+            continue;
+        }
+
         switch (token.getType()) {
             case 'l':
             case 'r':
+            case 'u':
             case 'o':
                 oss << token.getOp();
                 break;

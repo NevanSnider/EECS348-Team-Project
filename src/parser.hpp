@@ -1,5 +1,5 @@
-#ifndef EXPRESSION_TREE_HPP
-#define EXPRESSION_TREE_HPP
+#ifndef PARSER_HPP
+#define PARSER_HPP
 
 #include <iostream>
 #include <memory>

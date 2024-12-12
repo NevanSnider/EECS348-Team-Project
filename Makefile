@@ -2,7 +2,7 @@ CC = g++
 # CPPFLAGS = -Wall
 
 # add each module when ready to use
-OBJECTS = build/parser.o build/token.o build/lexer.o
+OBJECTS = build/parser.o build/token.o build/lexer.o build/evaluator.o
 
 test: tests/cases.cpp tests/testing.cpp $(OBJECTS)
 	$(CC) $(CPPFLAGS) $^ -o $@

@@ -62,6 +62,6 @@ public:
 /**
  * Parse a given list of tokens into an Abstract Syntax Tree
  */
-ExpressionTree* parse_expression(std::vector<Token>& tokens);
+std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& tokens);
 
 #endif 

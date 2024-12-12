@@ -1,7 +1,10 @@
 #include "../src/lexer.hpp"
 #include "../src/token.hpp"
 #include "../src/parser.hpp"
+#include <cassert>
 #include <iostream>
+#include <memory>
+#include <sstream>
 #include <string>
 
 struct Test {
@@ -13,15 +16,20 @@ void test_expression_1 () {
     const string expr = "(3+(4*2))-5";
 
     Lexer* lexer = new Lexer({expr});
+    cout << "Tokenizing..." << endl;
     vector<Token> tokens = lexer->tokenization();
-    ExpressionTree* tree = parse_expression(tokens);
+    cout << "Parsing..." << endl;
+    std::shared_ptr<ExpressionTree> tree = parse_expression(tokens);
 
-    tree->printExpression(cout);
+    ostringstream oss;
+    tree->printExpression(oss);
+    cout << oss.str();
+    assert(oss.str() == "((3 + (4 * 2)) - 5)");
 }
 
 int main () {
     Test tests[] = {
-        {"Expression 1", test_expression_1}
+        {"TCO1", test_expression_1}
     };
 
     for (Test& test : tests) {

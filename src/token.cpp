@@ -5,7 +5,8 @@
 #include "token.hpp"
 using namespace std;
 
-
+    //Returns the index of a given character in a char vector
+    //If the character is not found, -1 is returned
     int Token::find(vector<char> line, char elem) {
         for (int i=0; i < line.size(); i++) {
             if (line[i] == elem) return i;
@@ -13,6 +14,7 @@ using namespace std;
         return -1;
     }
     
+    //Takes a single digit number and converts it to the specified double value
     double Token::findNum(char elem) {
     char nums[] = {'0','1','2','3','4','5','6','7','8','9'};
     double decimals[] = {0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0};
@@ -21,7 +23,7 @@ using namespace std;
     }
     return -1;
 }
-
+    //Takes a number in a char vector and converts it to a double
     double Token::extractNumeric(vector<char> str_num) {
         double num, place;
         int i = 0, length = str_num.size();
@@ -47,6 +49,11 @@ using namespace std;
         if (t == 'o') {
             op = input.front();
             setPriority(op);
+        }
+        else if (t == 'u') {
+            sign = -1;
+            priority = -1;
+
         }
         else {
             setPriority('1');
@@ -89,22 +96,22 @@ using namespace std;
     }
     }
 
-    void Token::setSign(char sign) {
-        u = sign;
+    //Getter method for sign
+    int Token::getSign() {
+        return sign;
     }
 
-    char Token::getSign() {
-        return u;
-    }
-
+    //Getter method for value
     double Token::getValue() {
         return value;
     }
 
+    //Getter method for type
     char Token::getType() {
         return type;
     }
-
+    
+    //Getter method for operator type
     char Token::getOp() {
         return op;
     }

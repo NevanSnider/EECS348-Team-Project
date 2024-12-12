@@ -2,6 +2,7 @@
 #include <string>
 #include <stdexcept>
 #include <vector>
+#include <memory>
 #include <cmath> // to do exponentiation and modulo
 
 #include "evaluator.hpp"
@@ -18,17 +19,18 @@ vector<char> doubletoCharVector(double value) {
     if (dotPos != string::npos) {
         str = str.substr(0, dotPos + 6); // limits to 5 digit decimal precision
     }
-
     vector<char> result(str.begin(), str.end());
+
     return result;
 }
 
 // performs operation
-void operation(shared_ptr<ExpressionTree>& node) {
+void operation(shared_ptr<ExpressionTree> node) {
     if (!node->getLHS() || !node->getRHS()) throw invalid_argument("Invalid tree structure: missing children");
 
     double leftVal = node->getLHS()->getNode().getValue();
     double rightVal = node->getRHS()->getNode().getValue();
+
     char op = node->getNode().getOp(); // should be an operator
 
     double result;
@@ -60,7 +62,7 @@ void operation(shared_ptr<ExpressionTree>& node) {
 }
 
 // evaluates by post-order recursion: don't need return because it changes the node's value
-void evaluator(shared_ptr<ExpressionTree>& node){
+void evaluator(shared_ptr<ExpressionTree> node){
     if (!node) return;
 
     // checks if it traversed to a leaf
@@ -74,13 +76,21 @@ void evaluator(shared_ptr<ExpressionTree>& node){
 
     // replace the parent node with the expression evaluated with left and right child
     operation(node);
+   
 }
 
-void evaluate(shared_ptr<ExpressionTree>& node) {
+// returns evaluated value
+double evaluate(shared_ptr<ExpressionTree> node) {
     if (!node) {
-        throw invalid_argument( "Expression tree is empty." );
-        return;
+        throw invalid_argument("Expression tree is empty.");
+        return 0.0;
     } else {
         evaluator(node); // should call recursive function to evaluate expression
     }
+        
+    if (node->getNode().getType() == 'v') {
+        return node->getNode().getValue();
+    } else {
+        throw invalid_argument("Expression tree invalid");
+    }  
 }

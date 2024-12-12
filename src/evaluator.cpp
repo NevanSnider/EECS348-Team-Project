@@ -26,9 +26,12 @@ vector<char> doubletoCharVector(double value) {
 
 // performs operation
 void operation(shared_ptr<ExpressionTree> node) {
-    if (!node->getLHS() || !node->getRHS()) throw invalid_argument("Invalid tree structure: missing children");
+    bool is_unary = node->getNode().getType() == 'u';
 
-    double leftVal = node->getLHS()->getNode().getValue();
+    if ((!is_unary && !node->getLHS()) || !node->getRHS())
+        throw invalid_argument("Invalid tree structure: missing children");
+
+    double leftVal = is_unary ? 0 : node->getLHS()->getNode().getValue();
     double rightVal = node->getRHS()->getNode().getValue();
 
     char op = node->getNode().getOp(); // should be an operator

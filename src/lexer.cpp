@@ -41,7 +41,13 @@ vector<Token> Lexer::tokenization() {
 vector<char> Lexer::convert(vector<string> original) {
     vector<char> converted;
     for (size_t i = 0; i < original[0].size(); i++) {
-        converted.push_back(original[0][i]);
+        char item = original[0][i];
+
+        // ignore whitespace
+        if(item == ' ' || item == '\n' || item == '\t')
+            continue;
+
+        converted.push_back(item);
     }
     return converted;
 }

@@ -107,7 +107,7 @@ Token Lexer::createToken(vector<char> tokenChars) {
         if ((tokenChars.front() == '-' || tokenChars.front() == '+')
             && (tokens.empty() ||
             tokens.back().getType() == 'o' ||
-            tokens.back().getOp() == '(')) {
+            tokens.back().getType() == 'l')) {
             return Token(tokenChars, 'u');
         }
         return Token(tokenChars, 'o');

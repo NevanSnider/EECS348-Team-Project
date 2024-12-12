@@ -76,10 +76,9 @@ int main() {
             }
         }
     
-    //Just a filler error catch, I dont know
-    //what errors will be thrown yet.
-    catch(domain_error){
-        cout << "domain error" << endl;
+    //Will print whatever error is thrown the ui.
+    catch(const exception& error){
+        cout << "Error: " << error.what() << endl;
     }
     
 }

@@ -29,8 +29,8 @@ void TC01 () {
 }
 
 void TC02 () {
-    const std::string expr = "-3+(4*-2)";
-    const std::string expected = "((-3) + (4 * (-2)))\n";
+    const std::string expr = "-3+6(4*-2)";
+    const std::string expected = "((-3) + (6 * (4 * (-2))))\n";
 
     Lexer* lexer = new Lexer({expr});
     std::vector<Token> tokens = lexer->tokenization();
@@ -53,8 +53,8 @@ void TC02 () {
 }
 
 void TC03 () {
-    const std::string expr = "-4+6(9+1)";
-    const std::string expected = "((-4) + (6 * (9 + 1)))\n";
+    const std::string expr = "-5*(3+(-2))^2";
+    const std::string expected = "((-5) * ((3 + (-2)) ** 2))\n";
 
     Lexer* lexer = new Lexer({expr});
     std::vector<Token> tokens = lexer->tokenization();

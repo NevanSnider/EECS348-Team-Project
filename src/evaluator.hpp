@@ -7,11 +7,14 @@
 #include <vector>
 #include <cmath>
 
+#include "parser.hpp"
+#include "token.hpp"
+
 using namespace std;
 
 vector<char> doubletoCharVector(double value);
-void operation(shared_ptr<ExpressionTree>& node);
-void evaluator(shared_ptr<ExpressionTree>& node);
-void evaluate(shared_ptr<ExpressionTree>& node);
+void operation(shared_ptr<ExpressionTree> node);
+void evaluator(shared_ptr<ExpressionTree> node);
+double evaluate(shared_ptr<ExpressionTree> node);
 
 #endif

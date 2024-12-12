@@ -1,10 +1,10 @@
 CC = g++
-CPPFLAGS = -Wall
+# CPPFLAGS = -Wall
 
 # add each module when ready to use
 OBJECTS = build/parser.o build/token.o build/lexer.o
 
-test: tests/expressions.cpp $(OBJECTS)
+test: tests/cases.cpp tests/testing.cpp $(OBJECTS)
 	$(CC) $(CPPFLAGS) $^ -o $@
 	
 $(OBJECTS): build/%.o: src/%.cpp build

@@ -89,6 +89,14 @@ using namespace std;
     }
     }
 
+    void Token::setSign(char sign) {
+        u = sign;
+    }
+
+    char Token::getSign() {
+        return u;
+    }
+
     double Token::getValue() {
         return value;
     }

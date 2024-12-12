@@ -12,6 +12,7 @@ class Token {
         int priority;
         char op;
         double value;
+        char u;
     public:
         Token(vector<char> input, char t);
         
@@ -19,6 +20,8 @@ class Token {
         char getOp();
         void setPriority(char op);
         int getPriority();
+        void setSign(char sign);
+        char getSign();
         void setValue(vector<char> value);
         double getValue();
         int find(vector<char> line, char elem);

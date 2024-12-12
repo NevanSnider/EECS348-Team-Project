@@ -17,7 +17,8 @@ class Lexer {
         vector<char> replace(vector<char> input);
         int findIndex(vector<char> equation);
         bool checkOp(char index);
-        Token createToken(vector<char> token);
+        bool checkNum(char index);
+        Token createToken(vector<char> token, char sign);
         Lexer(vector<string> equation);
         vector<Token> tokenization();
         int countToks(vector<char> eq);

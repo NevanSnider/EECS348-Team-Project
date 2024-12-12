@@ -18,12 +18,9 @@ Lexer::Lexer(vector<string> equation) {
 vector<Token> Lexer::tokenization() {
     int count = countToks(c_equation);
     while (count >= 1) {
-        tokens.front();
         int index = findIndex(c_equation);
-        if (index == -1) {
-            break;
-        }
         if (index == 0) {
+            tokens.push_back(createToken(vector<char>{c_equation[0]}));
             c_equation.erase(c_equation.begin());
         }
         else if (index > 0) {

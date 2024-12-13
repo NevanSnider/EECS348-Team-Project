@@ -7,6 +7,13 @@
  * Parsing functions *
  *********************/
 
+bool left_associative(Token const& token) {
+    if (token.getType() != 'o' && token.getType() != 'u') {
+        return false;
+    }
+    return !(token.getOp() == '^' || token.getType() == 'u');
+}
+
 // Converts tokens to postfix using Dijkstra's shunting yard algorithm.
 std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
     std::vector<Token> output;
@@ -22,11 +29,12 @@ std::vector<Token> postfix_notation (std::vector<Token> const& tokens) {
             case 'o':
             case 'u': {
                 while (!ops.empty() && ops.top().getType() != 'l') {
-                    int priority = ops.top().getPriority();
+                    int o1_priority = token.getPriority();
+                    int o2_priority = ops.top().getPriority();
                     if (
-                        priority <= token.getPriority() /*||
-                        (priority < token.getPriority() && 
-                        (ops.top().getOp() == '^' || ops.top.getType()))*/
+                        o1_priority > o2_priority ||
+                        (o1_priority == o2_priority && 
+                        left_associative(token))
                     ) {
                         output.push_back(ops.top());
                         ops.pop();
@@ -110,7 +118,12 @@ std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& token
     std::vector<Token> postfix = postfix_notation(tokens);
 
     int last_index = postfix.size() - 1;
-    return create_subtree(postfix, &last_index);
+    auto tree = create_subtree(postfix, &last_index);
+    if (last_index >= 0) {
+        // not all tokens were used
+        throw invalid_argument("invalid expression");
+    }
+    return tree;
 }
 
 /*********************
@@ -121,7 +134,12 @@ void ExpressionTree::printInOrder(std::ostream& out) {
     if (token.getType() == 'o' || token.getType() == 'u') {
         if (token.getType() == 'u') {
             out << token.getOp(); 
+            bool also_unary = getRHS()->getNode().getType() == 'u';
+            if (also_unary)
+                out << '(';
             getRHS()->printInOrder(out);
+            if (also_unary)
+                out << ')';
         } else {
             out << '(';
             getLHS()->printInOrder(out);

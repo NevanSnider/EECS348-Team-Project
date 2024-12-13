@@ -40,14 +40,11 @@ string tree_repr(shared_ptr<ExpressionTree> tree) {
 
 int main () {
     Test tests[] = {
-        {"TCO1", TC01},
-        {"TCO2", TC02},
-        {"TCO3", TC03},
-        {"TC04", TC04},
-        {"TCO5", TC05},
-        {"TC06", TC06},
-        {"TC07", TC07},
-        {"TC08", TC08},
+        {"TCO1", TC01}, {"TCO2", TC02}, {"TCO3", TC03},
+        {"TC04", TC04}, {"TCO5", TC05}, {"TC06", TC06},
+        {"TC07", TC07}, {"TC08", TC08}, {"TC09", TC09},
+        {"TC10", TC10}, {"TC11", TC11}, {"TC12", TC12},
+        {"TC13", TC13}, {"TC14", TC14}, {"TC15", TC15}
     };
 
     int pass_count = 0;

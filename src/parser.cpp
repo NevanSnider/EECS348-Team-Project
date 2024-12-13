@@ -94,7 +94,7 @@ std::shared_ptr<ExpressionTree> create_subtree(
     int* last_index_ptr
 ) {
     if (*last_index_ptr < 0) {
-        throw invalid_argument("invalid expression");
+        throw invalid_argument("incomplete expression");
     }
 
     // Read root token and decrement
@@ -121,7 +121,7 @@ std::shared_ptr<ExpressionTree> parse_expression(std::vector<Token> const& token
     auto tree = create_subtree(postfix, &last_index);
     if (last_index >= 0) {
         // not all tokens were used
-        throw invalid_argument("invalid expression");
+        throw invalid_argument("malformed expression");
     }
     return tree;
 }

@@ -2,6 +2,7 @@
 #include "../src/evaluator.hpp"
 #include <sstream>
 #include <stdexcept>
+#include <string>
 #include "testing.hpp"
 #include "cases.hpp"
 
@@ -10,7 +11,6 @@ void TC01 () {
     const string expr = "( 3 + ( \t\n  4  *2)  )- 5";
     const string expected_tree = "((3 + (4 * 2)) - 5)";
     const double expected_value = 6;
-    
 
     // Test lexer and parser together
     Lexer lexer = Lexer({expr});
@@ -106,8 +106,9 @@ void TC04 () {
     try {
         auto tree = parse_expression(tokens);
     } catch (const invalid_argument& e){
-        // expected result
-        return;
+        string str(e.what());
+        if (str == "incomplete expression")
+            return;
     }
 
     ostringstream error;
@@ -156,8 +157,9 @@ void TC06 () {
         auto tree = parse_expression(tokens);
         double result = evaluate(tree);
     } catch (const invalid_argument& e){
-        // expected result
-        return;
+        string str(e.what());
+        if (str == "Division by zero")
+            return;
     }
 
     ostringstream error;
@@ -176,8 +178,9 @@ void TC07 () {
         auto tree = parse_expression(tokens);
         double result = evaluate(tree);
     } catch (const invalid_argument& e){
-        // expected result
-        return;
+        string str(e.what());
+        if (str == "Invalid character 'a' encountered.")
+            return;
     }
 
     ostringstream error;
@@ -376,8 +379,9 @@ void TC14 () {
         auto tree = parse_expression(tokens);
         double result = evaluate(tree);
     } catch (const invalid_argument& e){
-        // expected result
-        return;
+        string str(e.what());
+        if (str == "mismatched parentheses")
+            return;
     }
 
     ostringstream error;
@@ -396,8 +400,9 @@ void TC15 () {
         auto tree = parse_expression(tokens);
         double result = evaluate(tree);
     } catch (const invalid_argument& e){
-        // expected result
-        return;
+        string str(e.what());
+        if (str == "malformed expression")
+            return;
     }
 
     ostringstream error;

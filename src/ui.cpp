@@ -18,7 +18,6 @@ bool isValidInput(const string& s){
         if (validChars.count(s[i]) == 0){
             return false;
         }
-
     }
     return true;
 }
@@ -31,7 +30,7 @@ int main() {
         vector<double> answerList{};
         double answer = 0.0;
         bool enteredLoop = false;
-        while (userInput != "END"){
+        while (true) {
             // Clear the screen
             #ifdef _WIN32
                 system("cls");
@@ -60,7 +59,11 @@ int main() {
             // Prompt the user
             cout << "\nEnter expression or command (END to exit, BACK to undo): ";
             getline(cin, userInput);
-            // Handle commands
+
+            // Handles END
+            if (userInput == "END") {
+                break; // Exit the loop
+            }
             if (userInput == "BACK"){
                 if (!history.empty()){
                     history.pop_back();
@@ -71,8 +74,6 @@ int main() {
                 }
                 cout << "Press Enter to continue...";
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                continue;
-            } else if (userInput == "END") {
                 continue;
             }
             if (userInput.empty()){
@@ -92,7 +93,7 @@ int main() {
                     history.push_back(userInput);
                     answerList.push_back(answer);
                 }
-                catch (const std::exception& e){
+                catch (const exception& e){
                     cout << "Error: " << e.what() << endl;
                     cout << "Press Enter to continue...";
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -113,6 +114,3 @@ int main() {
     }
     return 0;
 }
-
-
-  

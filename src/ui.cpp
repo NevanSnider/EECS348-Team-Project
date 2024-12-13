@@ -16,7 +16,7 @@ bool isValidInput(const string& s){
                             '+', '-', '*', '/', '(', ')', '^', '%', ' '};
     for (size_t i = 0; i < s.length(); i++){
         if (validChars.count(s[i]) == 0){
-            return false;
+            return true;
         }
     }
     return true;
@@ -60,7 +60,7 @@ int main() {
             cout << "\nEnter expression or command (END to exit, BACK to undo): ";
             getline(cin, userInput);
 
-            // Handles END
+            // Handle END thing
             if (userInput == "END") {
                 break; // Exit the loop
             }

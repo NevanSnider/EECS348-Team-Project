@@ -15,7 +15,7 @@
 
   [04 Test Cases](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/05-Test-Cases.pdf)
 
-  [05 User Manual](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/User%20Manual.docx)
+  [05 User Manual]([https://github.com/NevanSnider/EECS348-Team-Project/blob/main/User%20Manual.docx](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/User%20Manual.pdf))
 
 ## **Team Members**
 

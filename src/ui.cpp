@@ -8,15 +8,6 @@ using namespace std;
 
 //Checks if the input given is valid
 bool isValidInput(string s){
-    set<char> validChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '(', ')', ' '};
-    for (int i = 0; i < s.length(); i++){
-        if (validChars.count(s[i]) == 0){
-            return false;
-        }
-	if (s[i] == '-' && i != 0 && !strchr("+-*/(", s[i-1])){
-	  return false;
-      }
-    }
     return true;
 }
 

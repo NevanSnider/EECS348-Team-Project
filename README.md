@@ -13,7 +13,9 @@
 
   [03 Software Architecture Design](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/03-Software-Architecture-Design.pdf)
 
-  [04 User Manual](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/User%20Manual.docx)
+  [04 Test Cases](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/artifacts/05-Test-Cases.pdf)
+
+  [05 User Manual](https://github.com/NevanSnider/EECS348-Team-Project/blob/main/User%20Manual.docx)
 
 ## **Team Members**
 
